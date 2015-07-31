@@ -15,10 +15,10 @@ class AVCamPreviewView: UIView{
     
     var session: AVCaptureSession? {
         get{
-            return (self.layer as AVCaptureVideoPreviewLayer).session;
+            return (self.layer as! AVCaptureVideoPreviewLayer).session;
         }
         set(session){
-            (self.layer as AVCaptureVideoPreviewLayer).session = session;
+            (self.layer as! AVCaptureVideoPreviewLayer).session = session;
         }
     };
     
