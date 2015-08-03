@@ -83,7 +83,10 @@ class ViewController: UIViewController, AVCaptureFileOutputRecordingDelegate {
             
             if (error != nil) {
                 print(error)
-                
+                let alert = UIAlertController(title: "Error", message: error!.localizedDescription
+                    , preferredStyle: .Alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+                self.presentViewController(alert, animated: true, completion: nil)
             }
 
             if session.canAddInput(videoDeviceInput){
@@ -120,6 +123,10 @@ class ViewController: UIViewController, AVCaptureFileOutputRecordingDelegate {
             
             if error != nil{
                 print(error)
+                let alert = UIAlertController(title: "Error", message: error!.localizedDescription
+                    , preferredStyle: .Alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+                self.presentViewController(alert, animated: true, completion: nil)
             }
             if session.canAddInput(audioDeviceInput){
                 session.addInput(audioDeviceInput)
@@ -202,7 +209,7 @@ class ViewController: UIViewController, AVCaptureFileOutputRecordingDelegate {
                 self.removeObserver(self, forKeyPath: "sessionRunningAndDeviceAuthorized", context: &SessionRunningAndDeviceAuthorizedContext)
                 
                 self.removeObserver(self, forKeyPath: "stillImageOutput.capturingStillImage", context: &CapturingStillImageContext)
-                self.removeObserver(self, forKeyPath: "movieFileOutput.recording", context: &SessionRunningAndDeviceAuthorizedContext)
+                self.removeObserver(self, forKeyPath: "movieFileOutput.recording", context: &RecordingContext)
                 
                 
             }
