@@ -113,7 +113,7 @@ class ViewController: UIViewController, AVCaptureFileOutputRecordingDelegate {
             var audioDeviceInput: AVCaptureDeviceInput?
             
             do {
-                videoDeviceInput = try AVCaptureDeviceInput(device: audioDevice)
+                audioDeviceInput = try AVCaptureDeviceInput(device: audioDevice)
             } catch let error2 as NSError {
                 error = error2
                 audioDeviceInput = nil
