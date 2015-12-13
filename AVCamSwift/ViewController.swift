@@ -461,9 +461,12 @@ class ViewController: UIViewController, AVCaptureFileOutputRecordingDelegate {
                 // Turning OFF flash for video recording
                 ViewController.setFlashMode(AVCaptureFlashMode.Off, device: self.videoDeviceInput!.device)
                 
-                let outputFilePath: String = NSTemporaryDirectory().stringByAppendingPathComponent( "movie".stringByAppendingPathExtension("mov")!)
+                let outputFilePath  =
+                NSURL(fileURLWithPath: NSTemporaryDirectory()).URLByAppendingPathComponent("movie.mov")
                 
-                self.movieFileOutput!.startRecordingToOutputFileURL(NSURL.fileURLWithPath(outputFilePath), recordingDelegate: self)
+                //NSTemporaryDirectory().stringByAppendingPathComponent( "movie".stringByAppendingPathExtension("mov")!)
+                
+                self.movieFileOutput!.startRecordingToOutputFileURL( outputFilePath, recordingDelegate: self)
                 
                 
             }else{
