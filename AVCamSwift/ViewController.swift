@@ -475,6 +475,61 @@ class ViewController: UIViewController, AVCaptureFileOutputRecordingDelegate {
         })
         
     }
+    
+    func saveImageToAlbum(imageDataSampleBuffer: CMSampleBuffer!, error: NSError!){
+        if error == nil {
+            let data:NSData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataSampleBuffer)
+            let image:UIImage = UIImage( data: data)!
+            
+            let libaray:ALAssetsLibrary = ALAssetsLibrary()
+            let orientation: ALAssetOrientation = ALAssetOrientation(rawValue: image.imageOrientation.rawValue)!
+            libaray.writeImageToSavedPhotosAlbum(image.CGImage, orientation: orientation, completionBlock: nil)
+            
+            print("save to album")
+            
+            
+            
+        }else{
+            //                    print("Did not capture still image")
+            print(error)
+        }
+    }
+    
+    func captureIt(lenPos: Float, step: Float = 0.1){
+        
+        if lenPos > 1.0 {
+            return
+        }
+        
+        do {
+        try self.videoDeviceInput!.device.lockForConfiguration()
+        }catch {}
+        
+        self.videoDeviceInput!.device.setFocusModeLockedWithLensPosition(lenPos, completionHandler: {
+        (time) in
+            print(time.seconds)
+            
+            do {
+            try self.videoDeviceInput!.device.unlockForConfiguration()
+            }catch {}
+            
+            self.stillImageOutput!.captureStillImageAsynchronouslyFromConnection(
+                self.stillImageOutput!.connectionWithMediaType(AVMediaTypeVideo),
+                completionHandler: {
+                (imageDataSampleBuffer: CMSampleBuffer!, error: NSError!) in
+                    
+                self.saveImageToAlbum(imageDataSampleBuffer, error: error)
+                    
+                self.captureIt(lenPos+step)
+            })
+            
+        
+        })
+        
+    
+
+    }
+    
     @IBAction func snapStillImage(sender: AnyObject) {
         print("snapStillImage")
         dispatch_async(self.sessionQueue, {
@@ -485,32 +540,11 @@ class ViewController: UIViewController, AVCaptureFileOutputRecordingDelegate {
             self.stillImageOutput!.connectionWithMediaType(AVMediaTypeVideo).videoOrientation = videoOrientation
             
             // Flash set to Auto for Still Capture
-            ViewController.setFlashMode(AVCaptureFlashMode.Auto, device: self.videoDeviceInput!.device)
-
+//            ViewController.setFlashMode(AVCaptureFlashMode.Auto, device: self.videoDeviceInput!.device)
             
-            
-            self.stillImageOutput!.captureStillImageAsynchronouslyFromConnection(self.stillImageOutput!.connectionWithMediaType(AVMediaTypeVideo), completionHandler: {
-                (imageDataSampleBuffer: CMSampleBuffer!, error: NSError!) in
-                
-                if error == nil {
-                    let data:NSData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataSampleBuffer)
-                    let image:UIImage = UIImage( data: data)!
-                    
-                    let libaray:ALAssetsLibrary = ALAssetsLibrary()
-                    let orientation: ALAssetOrientation = ALAssetOrientation(rawValue: image.imageOrientation.rawValue)!
-                    libaray.writeImageToSavedPhotosAlbum(image.CGImage, orientation: orientation, completionBlock: nil)
-                    
-                    print("save to album")
+            self.captureIt(0)
+ 
 
-                    
-                    
-                }else{
-//                    print("Did not capture still image")
-                    print(error)
-                }
-                
-                
-            })
 
 
         })
