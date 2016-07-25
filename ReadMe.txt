@@ -6,7 +6,7 @@ DESCRIPTION:
 This this a swift version of AVCam . rewrites by alex.chan  2014.11.21
 project url: 
 
-AVCam demonstrates usage of AV Foundation capture API for recording movies, taking still images, and switching cameras. It runs only on an actual device, either an iPad or iPhone, and cannot be run in the simulator.
+AVCam demonstrates usage of AV Foundation capture API for recording movies, taking still images, and switching cameras. It functions only on an actual device, either an iPad or iPhone. There is no camera access from the simulator.
 
 ===========================================================================
 BUILD REQUIREMENTS:
