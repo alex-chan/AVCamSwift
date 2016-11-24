@@ -11,12 +11,12 @@ AVCam demonstrates usage of AV Foundation capture API for recording movies, taki
 ===========================================================================
 BUILD REQUIREMENTS:
 
-Xcode 5.0 or later, iOS SDK 7.0 or later
+Xcode 5.0 or later, iOS SDK 8.0 or later
 
 ===========================================================================
 RUNTIME REQUIREMENTS:
 
-iOS 7.0 or later
+iOS 8.0 or later
 
 ===========================================================================
 CHANGES FROM PREVIOUS VERSION:
